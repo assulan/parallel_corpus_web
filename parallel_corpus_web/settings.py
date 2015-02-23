@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'g!=k0xv39bj3y#0*0!@yu#inlq2o=(14$_d*s8z$=q5c9h)6+2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["smt.parallel.asterisk.webfactional.com"]
 
 
 # Application definition
