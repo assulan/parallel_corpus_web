@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans 'About' %}
+    {{ settings.APP_TITLE }}
+{% endblock %}
+
+{% block content %}
+    <div class="stats">
+        {% blocktrans %}
+            <h3>About us</h3>
+            <p>
+                This web application is created for verifying whether 2 web pages are parallel or not.
+            </p>
+        {% endblocktrans %}
+    </div>
+{% endblock %}

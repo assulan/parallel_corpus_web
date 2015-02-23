@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block title %}
+    {% trans 'Home page' %}
+    {{ settings.APP_TITLE }}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+                {% else %}
+                    <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h3>Stats for {{ user.username }}</h3>
+        <table class="table span4">
+            <tr>
+                <td>Sentences done</td>
+                <td>{{ user.myuser.num_done }}</td>
+            </tr>
+            <tr>
+                <td>Sentences left</td>
+                <td>{{ user.myuser.num_not_done }}</td>
+            </tr>
+            <tr>
+                <td>Total sentences</td>
+                <td>{{ user.myuser.num_total }}</td>
+            </tr>
+        </table>
+    {% else %}
+    <form class="form-horizontal" action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <div class="control-group">
+            <label class="control-label" for="inputLogin">Username</label>
+            <div class="controls">
+                <input type="text" id="inputLogin" name="inputLogin" placeholder="Login">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+                <input type="password" id="inputPassword" name="inputPassword" placeholder="Password">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">Sign in</button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+
+{% endblock %}

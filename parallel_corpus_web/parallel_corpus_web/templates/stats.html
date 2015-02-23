@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Stats' %}
+    {{ settings.APP_TITLE }}
+{% endblock %}
+
+{% block content %}
+    <div class="stats">
+
+            <h3>Stats</h3>
+            <table class="table table-stripped span4">
+                {% for data_name, count in stats.items %}
+                    <tr>
+                        <td>{{ data_name }}</td>
+                        <td>{{ count }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block title %}
+    {% trans 'Home page' %}
+    {{ settings.APP_TITLE }}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+                {% else %}
+                    <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if pages %}
+    {% for s in pages %}
+
+        <table>
+            <tr>
+            <td width="50%">
+                <h3>English page</h3>
+                <div class="well">{% autoescape off %}{{ s.en_text }}{% endautoescape %}</div>
+            </td>
+            <td width="50%">
+                <h3>Kazakh page</h3>
+                <div class="well">{% autoescape off %}{{ s.kz_text }}{% endautoescape %}</div>
+            </td>
+            </tr>
+        </table>  
+
+        <div class="container pull-left" style="padding-top: 50px;">
+            <table class="table table-stripped span4 offset0">
+                <tr>
+                    <td># marked parallel</td>
+                    <td><span class="badge badge-success">{{ s.correct_score }}</span></td>
+
+                </tr>
+                <tr>
+                    <td># marked non-parallel</td>
+                    <td><span class="badge badge-important">{{ s.incorrect_score }}</span></td>
+                </tr>
+            </table>
+        </div>
+
+    {% endfor %}
+
+
+    <div class="container" style="padding-top:150px;">
+        <h3>Are the pages parallel?</h3>
+        <a href="{% url 'correct' pages.object_list.0.pk pages.number %}" class="btn btn-large btn-success">Yes</a>
+        <a href="{% url 'incorrect' pages.object_list.0.pk pages.number %}" class="btn btn-large btn-danger">No</a>
+    </div>
+    <div class="pagination">
+        <ul>
+            {% if pages.has_previous %}
+                <li><a href="?page={{ pages.previous_page_number }}">previous</a></li>
+            {% endif %}
+
+            <li class="disabled">
+                <a href="#">Page {{ pages.number }} of {{ pages.paginator.num_pages }}</a>
+            </li>
+
+            {% if pages.has_next %}
+                <li><a href="?page={{ pages.next_page_number }}">next</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {% endif %}
+{% endblock %}
