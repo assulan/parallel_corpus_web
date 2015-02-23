@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Download' %}
+    {{ settings.APP_TITLE }}
+{% endblock %}
+
+{% block content %}
+    <div class="stats">
+
+            <h3>Downloads</h3>
+            <p>Download format: "file name without {en, kz} {0,1}", 0 - pages are not parallel, 1 - pages are parallel</p>
+            <table class="table table-stripped span4">
+                {% for link, url in links.items %}
+                    <tr>
+                        <td><a href="{{ url }}">{{ link }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+    </div>
+{% endblock %}
