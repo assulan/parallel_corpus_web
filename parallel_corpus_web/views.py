@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+-*- coding: utf-8 -*-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -91,7 +91,7 @@ def download(request, template_name="download.html"):
     static_path = os.path.join(settings.CURRENT_PATH, "static")
     download_path = os.path.join(static_path, 'downloads')                        
     pages = ParallelPage.objects.all()                   
-    fname = "akorda.output" 
+    fname = "primeminister.output" 
     f_out = codecs.open(os.path.join(download_path, fname), "w", "utf-8")
     for page in pages:
         if page.correct_score == 1 and page.incorrect_score == 0:

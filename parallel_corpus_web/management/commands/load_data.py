@@ -18,10 +18,10 @@ def read_file(fpath):
     f.close()
     return data
 
-def load():    
-	ParallelPage.objects.all().delete()
-	print('Deleted old pages.')
+def load():    	
     f = open(INPUT_FILE, "r")
+    ParallelPage.objects.all().delete()
+    print('Deleted old pages.')
     for i, line in enumerate(f.readlines()):
         if i == 0:
             # Skip headers
@@ -32,8 +32,8 @@ def load():
             fname = fname.replace("â", "\udce2")
             
 
-        fname_en = "%sen" % fname
-        fname_kz = "%skz" % fname
+        fname_en = "%s.en" % fname
+        fname_kz = "%s.kz" % fname
         
         fname_en = os.path.join(INPUT_DIR, fname_en)
         fname_kz = os.path.join(INPUT_DIR, fname_kz)
