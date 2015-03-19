@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load staticfiles %}
 
 {% block title %}
     {% trans 'Download' %}
@@ -15,7 +16,7 @@
             <table class="table table-stripped span4">
                 {% for link, url in links.items %}
                     <tr>
-                        <td><a href="{{ url }}">{{ link }}</a></td>
+                        <td><a href="{% static url %}">{{ link }}</a></td>
                     </tr>
                 {% endfor %}
             </table>

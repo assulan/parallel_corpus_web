@@ -86,7 +86,7 @@ CURRENT_PATH = os.path.dirname(__file__)
 
 TEMPLATE_DIRS = (os.path.join(CURRENT_PATH, 'templates'), )
 
-STATICFILES_DIRS = (os.path.join(CURRENT_PATH, 'static'), )
+STATICFILES_DIRS = (os.path.join(CURRENT_PATH, 'static'), os.path.join(CURRENT_PATH, 'static', 'downloads'))
 
 # How many instances should be assigned for each user
 USER_LIMIT = 189

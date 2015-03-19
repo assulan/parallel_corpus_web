@@ -6,7 +6,7 @@ import codecs
 import os
 
 # Test set file, should be in the root of the project (i.e. same dir as manage.py)
-INPUT_FILE = "test_set.csv"
+INPUT_FILE = "pm.test_set.csv"
 
 # Location of actual *.{en,kz} files
 INPUT_DIR = "/home/aseke/research/SMT/STRANDAligner/articles/"
@@ -19,13 +19,15 @@ def read_file(fpath):
     return data
 
 def load():    
+	ParallelPage.objects.all().delete()
+	print('Deleted old pages.')
     f = open(INPUT_FILE, "r")
     for i, line in enumerate(f.readlines()):
         if i == 0:
             # Skip headers
             continue
-        fname = line.split(",")[0].strip('"')
-        prefix = ""
+        fname = line.split(",")[0].strip('"')        
+        
         if "â" in fname:            
             fname = fname.replace("â", "\udce2")
             
