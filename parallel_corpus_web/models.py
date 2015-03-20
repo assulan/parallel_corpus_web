@@ -37,6 +37,7 @@ class ParallelPage(models.Model):
     is_dev = models.BooleanField(default=False)
     is_assigned = models.BooleanField(default=False)
     my_user = models.ForeignKey(MyUser, blank=True, null=True)
+    corpus = models.CharField(max_length=50)
 
     def __unicode__(self):
         return str(self.id)

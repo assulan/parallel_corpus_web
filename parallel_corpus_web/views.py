@@ -1,4 +1,4 @@
--*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -50,6 +50,12 @@ def home(request, template_name="home.html"):
     page_list = my_user.pages
     paginator = Paginator(page_list, 1)
     page = request.GET.get('page')
+    lang = ''
+    if page_list:
+        if page_list[0].corpus in ['primeminister', 'akorda']:
+            lang = 'Kazakh'
+        elif page_list[0].corpus in ['presidencia']:
+            lang = 'Portuguese'
     try:
         pages = paginator.page(page)
     except PageNotAnInteger:
@@ -58,7 +64,7 @@ def home(request, template_name="home.html"):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         pages = paginator.page(paginator.num_pages)    
-    return render_to_response(template_name, {'pages': pages}, context_instance=RequestContext(request))
+    return render_to_response(template_name, {'pages': pages, 'language': lang}, context_instance=RequestContext(request))
 
 @login_required
 def logout(request):
@@ -87,22 +93,26 @@ def about(request, template_name="about.html"):
     return render_to_response(template_name, context_instance=RequestContext(request))
 
 @login_required(login_url='index')
-def download(request, template_name="download.html"):
+def download(request, template_name="download.html"):    
     static_path = os.path.join(settings.CURRENT_PATH, "static")
     download_path = os.path.join(static_path, 'downloads')                        
-    pages = ParallelPage.objects.all()                   
-    fname = "primeminister.output" 
-    f_out = codecs.open(os.path.join(download_path, fname), "w", "utf-8")
-    for page in pages:
-        if page.correct_score == 1 and page.incorrect_score == 0:
-            # verfied
-            f_out.write("%s 1\n" % page.file_name) 
-        elif page.incorrect_score == 1 and page.correct_score == 0:    
-            f_out.write("%s 0\n" % page.file_name) 
-    f_out.close()    
+    pages = ParallelPage.objects.all()               
     links = {}
-    links[fname] = os.path.join('/static/downloads', fname)
+    corpora = ['primeminister', 'presidencia']        
+    for corpus in corpora:
+        fname = '%s.output' % corpus
+        f_out = codecs.open(os.path.join(download_path, fname), "w", "utf-8")
+        for page in pages:
+            if page.corpus == corpus:
+                if page.correct_score == 1 and page.incorrect_score == 0:
+                    # verfied
+                    f_out.write("%s 1\n" % page.file_name) 
+                elif page.incorrect_score == 1 and page.correct_score == 0:    
+                    f_out.write("%s 0\n" % page.file_name) 
+        f_out.close()        
+        links[fname] = os.path.join('/static/downloads', fname)
     return render_to_response(template_name, {'links': links}, context_instance=RequestContext(request))
+
 
 
 def stats(request, template_name="stats.html"):    
