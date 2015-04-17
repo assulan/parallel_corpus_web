@@ -11,8 +11,8 @@ class MyUserAdmin(admin.ModelAdmin):
 admin.site.register(MyUser, MyUserAdmin)
 
 class ParallelPageAdmin(admin.ModelAdmin):
-    list_display = ('my_user', 'is_assigned')
-    list_filter = ('is_assigned', 'is_test', 'is_dev', 'my_user', 'correct_score', 'incorrect_score')
+    list_display = ('my_user', 'is_assigned', 'corpus')
+    list_filter = ('is_assigned', 'is_test', 'is_dev', 'my_user', 'correct_score', 'incorrect_score', 'corpus')
 
 
 admin.site.register(ParallelPage, ParallelPageAdmin)

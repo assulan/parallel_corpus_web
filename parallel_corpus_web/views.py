@@ -98,7 +98,8 @@ def download(request, template_name="download.html"):
     download_path = os.path.join(static_path, 'downloads')                        
     pages = ParallelPage.objects.all()               
     links = {}
-    corpora = ['primeminister', 'presidencia']        
+    #corpora = [d.values()[0] for d in ParallelPage.objects.values('corpus').distinct()]        
+    corpora = ['presidencia', 'mfa', 'egov', 'egov_additional']
     for corpus in corpora:
         fname = '%s.output' % corpus
         f_out = codecs.open(os.path.join(download_path, fname), "w", "utf-8")

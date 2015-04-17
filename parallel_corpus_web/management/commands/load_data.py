@@ -6,13 +6,14 @@ import codecs
 import os
 
 # Test set file, should be in the root of the project (i.e. same dir as manage.py)
-INPUT_FILE = "presidencia.test_set.csv"
+INPUT_FILE = "egov.test_set_add.csv"
 
 # Location of actual *.{en,kz} files
 INPUT_DIR = "/home/asterisk/webapps/parallel_corpus_web/articles"
 
 # Change this when the second language is different (e.g. kz, pt, ru, etc.)
-lang = 'pt'
+lang = 'kz'
+thecorpus = 'egov_additional'
 
 def read_file(fpath):
     f = codecs.open(fpath, "r", "utf-8")
@@ -25,10 +26,12 @@ def load():
     # ParallelPage.objects.all().delete()
     # print('Deleted old pages.')
     for i, line in enumerate(f.readlines()):
+    #for i in range(1, 181):
         if i == 0:
             # Skip headers
             continue
         fname = line.split(",")[0].strip('"')        
+        #fname = i
         
         # if "â" in fname:            
         #     fname = fname.replace("â", "\udce2")
@@ -44,7 +47,7 @@ def load():
         parallel_page = ParallelPage(en_text=en,
                                     kz_text=kz,
                                     is_test=True,
-                                    corpus='presidencia',
+                                    corpus=thecorpus,
                                     file_name=fname)
         parallel_page.save()
         print("Loaded test data from %d-th file" % (i + 1))
